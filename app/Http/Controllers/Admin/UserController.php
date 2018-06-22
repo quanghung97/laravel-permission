@@ -51,7 +51,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+          'roles' => 'required'
+        ]);
         $requestData = $request->except('roles');
         $roles = $request->roles;
         $user = User::create($requestData);
@@ -102,8 +104,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $requestData = $request->all();
+        $request->validate([
+          'name' => 'required',
+          'email' => 'required|email',
+          'roles' => 'required'
+        ]);
+        $requestData = $request->except('roles');
 
         $user = User::findOrFail($id);
         $user->update($requestData);

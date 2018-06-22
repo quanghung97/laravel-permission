@@ -46,12 +46,12 @@
                                                 'url' => ['/admin/user', $item->id],
                                                 'style' => 'display:inline'
                                             ]) !!}
-                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
+                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger btn-sm',
                                                         'title' => 'Delete user',
                                                         'onclick'=>'return confirm("Confirm delete?")'
-                                                )) !!}
+                                                ]) !!}
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>

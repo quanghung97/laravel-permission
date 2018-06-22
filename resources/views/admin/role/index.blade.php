@@ -12,7 +12,7 @@
                         <a href="{{ url('/admin/role/create') }}" class="btn btn-success btn-sm" title="Add New Role">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
-
+                        
                         {!! Form::open(['method' => 'GET', 'url' => '/admin/role', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
@@ -46,12 +46,12 @@
                                                 'url' => ['/admin/role', $item->id],
                                                 'style' => 'display:inline'
                                             ]) !!}
-                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
+                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger btn-sm',
                                                         'title' => 'Delete Role',
                                                         'onclick'=>'return confirm("Confirm delete?")'
-                                                )) !!}
+                                                ]) !!}
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>

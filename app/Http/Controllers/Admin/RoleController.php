@@ -52,12 +52,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+          'permissions' => 'required'
+        ]);
         $requestData = $request->except('permissions');
         $permissions = $request->permissions;
-        $role = Role::create($requestData);
 
-        $role->givePermissionTo($permissions);
+
+          $role = Role::create($requestData);
+          $role->givePermissionTo($permissions);
+
 
         return redirect('admin/role')->with('flash_message', 'Role added!');
     }
@@ -105,7 +109,10 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $request->validate([
+          'name' => 'required',
+          'permissions' => 'required'
+        ]);
         $requestData = $request->except('permissions');
         $permissions = $request->permissions;
 

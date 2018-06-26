@@ -34,7 +34,8 @@
                                         <th>ID</th><td>{{ $user->id }}</td>
                                     </tr>
                                     <tr><th> Name </th><td> {{ $user->name }} </td></tr><tr><th> Email </th><td> {{ $user->email }} </td></tr><tr><th> Password </th><td> {{ $user->password }} </td></tr>
-                                    <tr><th> Permissions </th><td>{{ implode(', ',$roles) }}</td></tr>
+                                    <tr><th> Roles </th><td>{{ implode(', ',$roles) }}</td></tr>
+                                    <tr><th> Permissions </th><td>{{ implode(', ',$permissions) }}</td></tr>
                                 </tbody>
                             </table>
                         </div>

@@ -52,15 +52,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-          'roles' => 'required'
+          'name' => 'required',
+          'password' => 'required|min:6',
+          'roles' => 'required',
+          'email' => 'required|email'
         ]);
         $requestData = $request->except('roles');
         $roles = $request->roles;
         $user = User::create($requestData);
 
-        $user->assignRole($roles);
-
-
+        $user->assignRole($roles); // assign Role for user
         return redirect('admin/user')->with('flash_message', 'User added!');
     }
 
@@ -76,7 +77,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles = $user->roles->pluck('name')->toArray();
 
-        return view('admin.user.show', compact('user', 'roles'));
+        $permissions = $user->getPermissionsViaRoles()->pluck('name')->unique()->toArray();
+        return view('admin.user.show', compact('user', 'roles', 'permissions'));
     }
 
     /**

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -39,6 +36,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::get()->pluck('name', 'name');
+
         return view('admin.user.create', compact('roles'));
     }
 
@@ -55,7 +53,7 @@ class UserController extends Controller
           'name' => 'required',
           'password' => 'required|min:6',
           'roles' => 'required',
-          'email' => 'required|email'
+          'email' => 'required|email',
         ]);
         $requestData = $request->except('roles');
         $roles = $request->roles;
@@ -68,7 +66,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\View\View
      */
@@ -78,13 +76,14 @@ class UserController extends Controller
         $roles = $user->roles->pluck('name')->toArray();
 
         $permissions = $user->getPermissionsViaRoles()->pluck('name')->unique()->toArray();
+
         return view('admin.user.show', compact('user', 'roles', 'permissions'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\View\View
      */
@@ -100,7 +99,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param int                      $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -109,7 +108,7 @@ class UserController extends Controller
         $request->validate([
           'name' => 'required',
           'email' => 'required|email',
-          'roles' => 'required'
+          'roles' => 'required',
         ]);
         $requestData = $request->except('roles');
 
@@ -117,13 +116,14 @@ class UserController extends Controller
         $user->update($requestData);
 
         $user->syncRoles($request->roles);
+
         return redirect('admin/user')->with('flash_message', 'User updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

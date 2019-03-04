@@ -6,8 +6,6 @@ interface BaseInterface
 {
     public function all();
 
-    public function getModel();
-
     public function lists($column, $key = null);
 
     public function paginate($limit = null, $columns = ['*']);

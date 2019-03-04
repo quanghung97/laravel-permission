@@ -2,28 +2,59 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $repositories = ['User', 'Comment', 'Image', 'Trip', 'WayPoint'];
+
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
-      Schema::defaultStringLength(191);
+        $this->setFacadesRepositories();
+        Schema::defaultStringLength(191);
     }
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
-        //
+        $this->registerRepositories();
+    }
+
+    /**
+     * register repositories class dependency.
+     * example change drive to call method only change.
+     */
+    private function registerRepositories()
+    {
+        // $this->app->bind(
+        //     'App\Repositories\Contracts\ProductRepositoryInterface',
+        //     use 'App\Repositories\FirstOptionProductRepository' or 'App\Repositories\SecondOptionProductRepository'
+        //      both of them implements ProductRepositoryInterface
+        // );
+        foreach ($this->repositories as $repository) {
+            $this->app->bindIf(
+                "App\\Repositories\\Contracts\\${repository}Interface",
+                "App\\Repositories\\${repository}Repository"
+            );
+        }
+    }
+
+    /**
+     * set Facade for repositories without implement instants container.
+     */
+    private function setFacadesRepositories()
+    {
+        foreach ($this->repositories as $repository) {
+            $this->app->alias(
+                "${repository}Repository",
+                "App\\Repositories\\Facades\\${repository}Repository"
+            );
+        }
     }
 }

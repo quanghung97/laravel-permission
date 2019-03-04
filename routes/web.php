@@ -17,10 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware'=>['role:super-admin','auth']],function(){
-	Route::resource('admin/permission', 'Admin\\PermissionController');
-	Route::resource('admin/role', 'Admin\\RoleController');
-	Route::resource('admin/user', 'Admin\\UserController');
+Route::group(['middleware' => ['role:super-admin', 'auth']], function () {
+    Route::resource('admin/permission', 'Admin\\PermissionController');
+    Route::resource('admin/role', 'Admin\\RoleController');
+    Route::resource('admin/user', 'Admin\\UserController');
 });
-
+// Route::resource('admin/permission', 'Admin\\PermissionController');
+// Route::resource('admin/role', 'Admin\\RoleController');
+// Route::resource('admin/user', 'Admin\\UserController');
 Route::get('/home', 'HomeController@index')->name('home');

@@ -2,17 +2,34 @@
 
 namespace App\Repositories;
 
-use App\Models\Role;
 use App\Models\User;
-use App\Models\Permission;
 use Illuminate\Support\Collection;
+use App\Repositories\Facades\RoleRepository;
+use App\Repositories\Contracts\RoleInterface;
 use App\Repositories\Contracts\UserInterface;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
-    public function __construct(User $user)
+    protected $roleRepository;
+
+    public function __construct(User $user, RoleInterface $roleRepository)
     {
+        $this->roleRepository = $roleRepository;
         parent::__construct($user);
+    }
+
+    public function assignRole1($user, $roles)
+    {
+        //using both of them
+        // dont inject constructor
+        //$roles = RoleRepository::where('name', $roles)->first();
+        // using inject constructor should inject Interface binding in Provider not inject class
+        $roles = $this->roleRepository->findByName($roles)->first();
+        dd($roles);
+        //$roles = Role::where('name', $roles)->first();
+        $user->roles()->attach($roles);
+
+        return $this;
     }
 
     // public function scopeRole($query, $roles)

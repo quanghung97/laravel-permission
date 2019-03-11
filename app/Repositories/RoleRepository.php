@@ -23,7 +23,7 @@ class RoleRepository extends BaseRepository implements RoleInterface
      */
     public function findByName($name)
     {
-        $role = $this->model->where('name', $name)->first();
+        $role = static::where('name', $name)->first();
 
         if (!$role) {
             throw new RoleDoesNotExist();

@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Repositories\Contracts\RoleInterface;
 
 class UserController extends Controller
 {
+    protected $roleRepository;
+
+    public function __construct(RoleInterface $roleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -132,5 +140,11 @@ class UserController extends Controller
         User::destroy($id);
 
         return redirect('admin/user')->with('flash_message', 'User deleted!');
+    }
+
+    public function repositoryAssignRole()
+    {
+        //inject
+        dd($this->roleRepository->findByName('admin'));
     }
 }
